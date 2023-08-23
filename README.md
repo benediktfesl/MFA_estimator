@@ -14,7 +14,7 @@ git clone --recurse-submodules https://github.com/benediktfesl/MFA_estimator.git
 ## Acknowledgement
 The implementation is in parts based on the Gaussian Mixture Model (GMM) estimator from https://github.com/michael-koller-91/gmm-estimator.
 
-## Licence
+## License
 The implementation of the MFA-based channel estimator is covered by the BSD 3-Clause License:
 
 > BSD 3-Clause License
