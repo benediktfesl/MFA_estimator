@@ -1,9 +1,9 @@
 # MFA_estimator
 Implementation of the channel estimator based on the Mixture of Factor Analyzers (MFA) from the paper 
 - B. Fesl, N. Turan, and W. Utschick, “Low-Rank Structured MMSE Channel Estimation with Mixtures of Factor Analyzers,” in *57th Asilomar Conf. Signals, Syst., Comput.*, 2023.
-  https://arxiv.org/abs/2304.14809
+  [[IEEE](https://ieeexplore.ieee.org/document/10477088)] [[arXiv](https://arxiv.org/abs/2304.14809)]
 
-The estimator is based on the complex-valued implementation of the expectation-maximization (EM) algorithm for MFA from https://github.com/benediktfesl/MFA_cplx.
+The estimator is based on the complex-valued implementation of the expectation-maximization (EM) algorithm for MFA from https://github.com/benediktfesl/cplx-mfa.
 
 ## Clone with Submodule
 To clone the repository, including the complex-valued EM algorithm as a submodule, use the following command:

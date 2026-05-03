@@ -1,6 +1,14 @@
+from pathlib import Path
+import sys
+
 import numpy as np
 import numpy.typing as npt
-from MFA_cplx import MFA_cplx
+
+_CPLX_MFA_PATH = Path(__file__).resolve().parent / "cplx-mfa"
+if str(_CPLX_MFA_PATH) not in sys.path:
+    sys.path.insert(0, str(_CPLX_MFA_PATH))
+
+import MFA_cplx
 
 class MfaEstimator(MFA_cplx.MFA_cplx):
     def estimate(self,
