@@ -1,6 +1,10 @@
+import argparse
+import random
 import time
+
 import numpy as np
-import MFA_estimator
+
+from mfa_estimator import MfaEstimator
 
 
 def mse(x, y):
@@ -9,9 +13,7 @@ def mse(x, y):
 
 
 def standard_normal_cplx(n_samples, n_dim, rng=np.random.default_rng()):
-    """
-    Standard complex normal random numbers of shape (n_samples, n_dim).
-    """
+    """Standard complex normal random numbers of shape (n_samples, n_dim)."""
     return (
         rng.standard_normal((n_samples, n_dim))
         + 1j * rng.standard_normal((n_samples, n_dim))
@@ -19,9 +21,7 @@ def standard_normal_cplx(n_samples, n_dim, rng=np.random.default_rng()):
 
 
 def example1():
-    """
-    No observation matrix, different diagonal Psi matrices.
-    """
+    """No observation matrix, different diagonal Psi matrices."""
     rng = np.random.default_rng(1235428719812346)
 
     n_train = 1_000
@@ -31,47 +31,39 @@ def example1():
     h_train = standard_normal_cplx(n_train, n_dim, rng)
     h_val = standard_normal_cplx(n_val, n_dim, rng)
     noise_val = standard_normal_cplx(n_val, n_dim, rng)
-    # the SNR is 0 dB
+
+    # The SNR is 0 dB.
     Cn = np.eye(n_dim)
     y_val = h_val + noise_val
 
-    #
-    # MFA training
-    #
     tic = time.time()
-    mfa_est = MFA_estimator.MfaEstimator(
+    mfa_est = MfaEstimator(
         n_components=16,
         latent_dim=12,
-        PPCA=False,
+        ppca=False,
         lock_psis=False,
         rs_clip=1e-6,
-        max_condition_number=1.e6,
-        maxiter=400,
+        max_condition_number=1e6,
+        max_iter=400,
         verbose=False,
     )
     mfa_est.fit(h_train)
     toc = time.time()
-    print(f'training done: {toc-tic} sec.')
+    print(f"training done: {toc - tic} sec.")
 
-    #
-    # MFA evaluation
-    #
     tic = time.time()
     h_est = mfa_est.estimate(y=y_val, Cn=Cn, A=None, n_summands_or_proba=1.0)
-    print('NMSE of n_summands_or_proba=1.0 (all):', mse(h_est, h_val))
-    del h_est
-    h_est = mfa_est.estimate(y_val, Cn=Cn, A=None, n_summands_or_proba=5)
-    print('NMSE of n_summands_or_proba=5:', mse(h_est, h_val))
-    del h_est
+    print("NMSE of n_summands_or_proba=1.0 (all):", mse(h_est, h_val))
+
+    h_est = mfa_est.estimate(y=y_val, Cn=Cn, A=None, n_summands_or_proba=5)
+    print("NMSE of n_summands_or_proba=5:", mse(h_est, h_val))
+
     toc = time.time()
-    print(f'example 1 estimation done: {toc-tic} sec.')
+    print(f"example 1 estimation done: {toc - tic} sec.")
 
 
 def example2():
-    import random
-    """
-    Selection matrix A, different diagonal Psi matrices.
-    """
+    """Selection matrix A, different diagonal Psi matrices."""
     rng = np.random.default_rng(1235428719812346)
 
     n_train = 1_000
@@ -79,56 +71,50 @@ def example2():
     n_dim = 10
     n_dim_obs = 5
 
-    # create random selection matrix
-    A = np.zeros([n_dim_obs, n_dim])
+    # Create random selection matrix.
+    A = np.zeros((n_dim_obs, n_dim))
     pattern_vec = random.sample(range(n_dim), n_dim_obs)
     pattern_vec.sort()
+
     for i, val in enumerate(pattern_vec):
         A[i, val] = 1
 
     h_train = standard_normal_cplx(n_train, n_dim, rng)
     h_val = standard_normal_cplx(n_val, n_dim, rng)
     noise_val = standard_normal_cplx(n_val, n_dim_obs, rng)
-    # the SNR is 0 dB
+
+    # The SNR is 0 dB.
     Cn = np.eye(n_dim_obs)
     y_val = np.squeeze(np.matmul(A, np.expand_dims(h_val, 2))) + noise_val
 
-    #
-    # MFA training
-    #
     tic = time.time()
-    mfa_est = MFA_estimator.MfaEstimator(
+    mfa_est = MfaEstimator(
         n_components=16,
         latent_dim=12,
-        PPCA=False,
+        ppca=False,
         lock_psis=False,
         rs_clip=1e-6,
-        max_condition_number=1.e6,
-        maxiter=400,
+        max_condition_number=1e6,
+        max_iter=400,
         verbose=False,
     )
     mfa_est.fit(h_train)
     toc = time.time()
-    print(f'training done: {toc - tic} sec.')
+    print(f"training done: {toc - tic} sec.")
 
-    #
-    # MFA evaluation
-    #
     tic = time.time()
     h_est = mfa_est.estimate(y=y_val, Cn=Cn, A=A, n_summands_or_proba=1.0)
-    print('NMSE of n_summands_or_proba=1.0 (all):', mse(h_est, h_val))
-    del h_est
+    print("NMSE of n_summands_or_proba=1.0 (all):", mse(h_est, h_val))
+
     h_est = mfa_est.estimate(y=y_val, Cn=Cn, A=A, n_summands_or_proba=5)
-    print('NMSE of n_summands_or_proba=5:', mse(h_est, h_val))
-    del h_est
+    print("NMSE of n_summands_or_proba=5:", mse(h_est, h_val))
+
     toc = time.time()
-    print(f'example 2 estimation done: {toc - tic} sec.')
+    print(f"example 2 estimation done: {toc - tic} sec.")
 
 
 def example3():
-    """
-    No observation matrix, single diagonal Psi matrix for all components.
-    """
+    """No observation matrix, single diagonal Psi matrix for all components."""
     rng = np.random.default_rng(1235428719812346)
 
     n_train = 1_000
@@ -138,46 +124,39 @@ def example3():
     h_train = standard_normal_cplx(n_train, n_dim, rng)
     h_val = standard_normal_cplx(n_val, n_dim, rng)
     noise_val = standard_normal_cplx(n_val, n_dim, rng)
-    # the SNR is 0 dB
+
+    # The SNR is 0 dB.
     Cn = np.eye(n_dim)
     y_val = h_val + noise_val
 
-    #
-    # MFA training
-    #
     tic = time.time()
-    mfa_est = MFA_estimator.MfaEstimator(
+    mfa_est = MfaEstimator(
         n_components=16,
         latent_dim=12,
-        PPCA=False,
+        ppca=False,
         lock_psis=True,
         rs_clip=0.0,
-        max_condition_number=1.e6,
-        maxiter=400,
+        max_condition_number=1e6,
+        max_iter=400,
         verbose=False,
     )
     mfa_est.fit(h_train)
     toc = time.time()
-    print(f'training done: {toc-tic} sec.')
+    print(f"training done: {toc - tic} sec.")
 
-    #
-    # MFA evaluation
-    #
     tic = time.time()
     h_est = mfa_est.estimate(y=y_val, Cn=Cn, A=None, n_summands_or_proba=1.0)
-    print('NMSE of n_summands_or_proba=1.0 (all):', mse(h_est, h_val))
-    del h_est
+    print("NMSE of n_summands_or_proba=1.0 (all):", mse(h_est, h_val))
+
     h_est = mfa_est.estimate(y=y_val, Cn=Cn, A=None, n_summands_or_proba=5)
-    print('NMSE of n_summands_or_proba=5:', mse(h_est, h_val))
-    del h_est
+    print("NMSE of n_summands_or_proba=5:", mse(h_est, h_val))
+
     toc = time.time()
-    print(f'example 2 estimation done: {toc - tic} sec.')
+    print(f"example 3 estimation done: {toc - tic} sec.")
 
 
 def example4():
-    """
-    No observation matrix, single scaled idendity Psi matrix for all components (PPCA).
-    """
+    """No observation matrix, single scaled identity Psi matrix for all components."""
     rng = np.random.default_rng(1235428719812346)
 
     n_train = 1_000
@@ -187,54 +166,47 @@ def example4():
     h_train = standard_normal_cplx(n_train, n_dim, rng)
     h_val = standard_normal_cplx(n_val, n_dim, rng)
     noise_val = standard_normal_cplx(n_val, n_dim, rng)
-    # the SNR is 0 dB
+
+    # The SNR is 0 dB.
     Cn = np.eye(n_dim)
     y_val = h_val + noise_val
 
-    #
-    # MFA training
-    #
     tic = time.time()
-    mfa_est = MFA_estimator.MfaEstimator(
+    mfa_est = MfaEstimator(
         n_components=16,
         latent_dim=12,
-        PPCA=True,
+        ppca=True,
         lock_psis=True,
         rs_clip=0.0,
-        max_condition_number=1.e6,
-        maxiter=400,
+        max_condition_number=1e6,
+        max_iter=400,
         verbose=False,
     )
     mfa_est.fit(h_train)
     toc = time.time()
-    print(f'training done: {toc-tic} sec.')
+    print(f"training done: {toc - tic} sec.")
 
-    #
-    # MFA evaluation
-    #
     tic = time.time()
     h_est = mfa_est.estimate(y=y_val, Cn=Cn, A=None, n_summands_or_proba=1.0)
-    print('NMSE of n_summands_or_proba=1.0 (all):', mse(h_est, h_val))
-    del h_est
+    print("NMSE of n_summands_or_proba=1.0 (all):", mse(h_est, h_val))
+
     h_est = mfa_est.estimate(y=y_val, Cn=Cn, A=None, n_summands_or_proba=5)
-    print('NMSE of n_summands_or_proba=5:', mse(h_est, h_val))
-    del h_est
+    print("NMSE of n_summands_or_proba=5:", mse(h_est, h_val))
+
     toc = time.time()
-    print(f'example 2 estimation done: {toc - tic} sec.')
+    print(f"example 4 estimation done: {toc - tic} sec.")
 
 
-if __name__ == '__main__':
-    import argparse
-
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--nr', type=int, default=0)
+    parser.add_argument("--nr", type=int, default=0)
     parargs = parser.parse_args()
 
     if parargs.nr == 1:
         example1()
-    if parargs.nr == 2:
+    elif parargs.nr == 2:
         example2()
-    if parargs.nr == 3:
+    elif parargs.nr == 3:
         example3()
-    if parargs.nr == 4:
+    elif parargs.nr == 4:
         example4()
