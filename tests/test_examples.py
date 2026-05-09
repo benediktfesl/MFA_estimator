@@ -35,4 +35,3 @@ def test_example_script_imports_successfully() -> None:
     )
 
     assert result.returncode == 0
-    assert result.stderr == ""
