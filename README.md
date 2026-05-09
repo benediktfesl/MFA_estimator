@@ -274,6 +274,9 @@ Related publications:
 - B. Fesl, N. Turan, B. Böck, and W. Utschick, “Channel Estimation for Quantized Systems based on Conditionally Gaussian Latent Models,” *IEEE Transactions on Signal Processing*, 2024.  
   [[IEEE](https://ieeexplore.ieee.org/document/10454252)] [[arXiv](https://arxiv.org/abs/2309.04014)]
 
+- B. Fesl, “Generative Model-Aided Channel Estimation Design and Optimality Analysis,” *Ph.D. dissertation, Technical University of Munich*, 2025. 
+  [[Link](https://mediatum.ub.tum.de/?id=1748775)]
+
 ## 🧪 Development
 
 Install the development environment with `uv`:
