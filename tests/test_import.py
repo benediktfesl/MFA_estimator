@@ -1,4 +1,5 @@
 from cplx_mfa import ComplexMFA
+
 from mfa_estimator import MfaEstimator
 
 
