@@ -4,4 +4,4 @@ from mfa_estimator.estimator import MfaEstimator
 
 __all__ = ["MfaEstimator"]
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"

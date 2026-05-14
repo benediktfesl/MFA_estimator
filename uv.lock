@@ -315,7 +315,7 @@ toml = [
 
 [[package]]
 name = "cplx-mfa"
-version = "0.1.0"
+version = "0.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
@@ -325,9 +325,9 @@ dependencies = [
     { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/20/25/a5c9725371b6aec9e1272b16cc54d2f17eaeb0c89e0a77a6c320ab3b7d56/cplx_mfa-0.1.0.tar.gz", hash = "sha256:21c7cf723b656dc4cad901831cec9bad7c49a894998e6fd193381122793310d6", size = 15897, upload-time = "2026-05-05T21:19:37.322Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2b/04/e2cf8a7e8dfe40a152d499cf68104720cc90f5922f045502211fa5a13638/cplx_mfa-0.1.1.tar.gz", hash = "sha256:f3cf6901b9894f884ace0b72452581fdc2da3d225337aacbb64f4c7afbc0b11d", size = 16529, upload-time = "2026-05-14T15:33:50.608Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1f/f4/4c1d9d638b2f79ccd23b43d5ff25d2acfc308715ef00b86d150b76c660d3/cplx_mfa-0.1.0-py3-none-any.whl", hash = "sha256:b7f2b19fea774c3fae7ea2e34ced83e6cda6520a8d1e017dc2ced44b8d6950f2", size = 11148, upload-time = "2026-05-05T21:19:35.761Z" },
+    { url = "https://files.pythonhosted.org/packages/d5/5e/a6e10db3aace297944974d04235387b1989c38ae6729dfe4bf971205ca8b/cplx_mfa-0.1.1-py3-none-any.whl", hash = "sha256:ed4068afe7ea5a2f69b78ad17e9982180cd775d7f94225301f2e1adcf153bda0", size = 11352, upload-time = "2026-05-14T15:33:49.28Z" },
 ]
 
 [[package]]
@@ -531,7 +531,7 @@ wheels = [
 
 [[package]]
 name = "mfa-estimator"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "cplx-mfa" },
@@ -550,7 +550,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "cplx-mfa", specifier = ">=0.1.0" },
+    { name = "cplx-mfa", specifier = ">=0.1.1" },
     { name = "numpy", specifier = ">=1.23" },
 ]
 

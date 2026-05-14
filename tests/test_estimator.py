@@ -376,3 +376,33 @@ def test_estimate_all_components_by_count_matches_probability_one() -> None:
     )
 
     np.testing.assert_allclose(h_est_by_count, h_est_by_probability)
+
+
+def test_zero_mean_fit_from_cplx_mfa_integrates_with_estimate() -> None:
+    rng = np.random.default_rng(1234)
+
+    h_train = (
+        rng.standard_normal((40, 2)) + 1j * rng.standard_normal((40, 2))
+    ) / np.sqrt(2)
+    y = h_train[:5]
+    Cn = 0.1 * np.eye(2)
+
+    estimator = MfaEstimator(
+        n_components=2,
+        latent_dim=1,
+        zero_mean=True,
+        max_iter=2,
+        random_state=1234,
+        verbose=False,
+    )
+
+    with pytest.warns(RuntimeWarning, match="EM did not converge"):
+        estimator.fit(h_train)
+
+    np.testing.assert_allclose(estimator.means_, 0.0)
+
+    h_est = estimator.estimate(y=y, Cn=Cn, n_summands_or_proba=1.0)
+
+    assert h_est.shape == y.shape
+    assert np.iscomplexobj(h_est)
+    assert np.all(np.isfinite(h_est))

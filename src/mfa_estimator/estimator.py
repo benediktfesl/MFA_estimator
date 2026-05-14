@@ -124,8 +124,7 @@ class MfaEstimator(ComplexMFA):
 
         if noise_covariance.ndim != 2:
             raise ValueError(
-                "Cn must be a 2D array of shape "
-                "(n_observations, n_observations)."
+                "Cn must be a 2D array of shape (n_observations, n_observations)."
             )
 
         expected_noise_shape = (y_array.shape[1], y_array.shape[1])
@@ -148,8 +147,7 @@ class MfaEstimator(ComplexMFA):
 
             if observation_matrix.ndim != 2:
                 raise ValueError(
-                    "A must be a 2D array of shape "
-                    "(n_observations, n_features)."
+                    "A must be a 2D array of shape (n_observations, n_features)."
                 )
 
             if not np.iscomplexobj(observation_matrix):
@@ -266,9 +264,7 @@ class MfaEstimator(ComplexMFA):
         transformed_y = precision @ centered_y
         quadratic_form = np.sum(centered_y.conj() * transformed_y, axis=0)
 
-        return np.real(
-            -np.log(np.pi) * y.shape[1] - log_determinant - quadratic_form
-        )
+        return np.real(-np.log(np.pi) * y.shape[1] - log_determinant - quadratic_form)
 
     def _select_components(
         self,
@@ -304,6 +300,4 @@ class MfaEstimator(ComplexMFA):
         mean = self.means_[component]
         covariance = self.covariances_[component]
 
-        return mean + covariance @ A.conj().T @ (
-            observation_precision @ (y - A @ mean)
-        )
+        return mean + covariance @ A.conj().T @ (observation_precision @ (y - A @ mean))

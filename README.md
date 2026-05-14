@@ -23,6 +23,7 @@ The estimator is domain-independent and can be used for linear inverse problems 
 - Uses complex-valued MFA priors fitted with [`cplx-mfa`](https://pypi.org/project/cplx-mfa/)
 - Component-wise LMMSE estimation under the fitted mixture prior
 - Posterior component weighting in the observation domain
+- Supports zero-mean MFA priors via inherited `zero_mean=True`
 - Supports identity and rectangular observation matrices
 - Supports full posterior mixture estimates or truncated component sums
 - scikit-learn-like workflow via inherited `fit(...)` and added `estimate(...)`
@@ -38,13 +39,13 @@ If you use `mfa-estimator` in academic work, please cite the package directly:
   title = {{mfa-estimator}: MFA-based estimator for complex-valued linear inverse problems},
   year = {2026},
   url = {https://github.com/benediktfesl/MFA_estimator},
-  version = {0.1.0}
+  version = {0.1.1}
 }
 ```
 
 Plain-text citation:
 
-> B. Fesl, `mfa-estimator`: MFA-based estimator for complex-valued linear inverse problems, version 0.1.0. Available: https://github.com/benediktfesl/MFA_estimator
+> B. Fesl, `mfa-estimator`: MFA-based estimator for complex-valued linear inverse problems, version 0.1.1. Available: https://github.com/benediktfesl/MFA_estimator
 
 If you use the estimator in the context of channel estimation, please also consider citing the related papers listed in the research background section.
 
@@ -180,6 +181,7 @@ Constructor parameters are inherited from `ComplexMFA`:
 |---|---|
 | `n_components` | Number of mixture components. |
 | `latent_dim` | Latent dimensionality of each factor analyzer. |
+| `zero_mean` | If `True`, all MFA component means are fixed to zero during fitting. |
 | `ppca` | If `True`, use one isotropic noise variance per component. |
 | `lock_psis` | If `True`, use shared diagonal noise variances across components. |
 | `rs_clip` | Lower clipping value for responsibilities during EM. |

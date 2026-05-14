@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mfa-estimator"
-version = "0.1.0"
+version = "0.1.1"
 description = "MFA-based estimator for linear inverse problems with complex-valued priors."
 readme = "README.md"
 license = "BSD-3-Clause"
@@ -12,7 +12,7 @@ license-files = ["LICENSE"]
 requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.23",
-    "cplx-mfa>=0.1.0",
+    "cplx-mfa>=0.1.1",
 ]
 keywords = [
     "complex-valued",
